@@ -88,8 +88,10 @@ CREATE TABLE "Image" (
 CREATE TABLE "User" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "username" TEXT NOT NULL,
-    "addressId" INTEGER NOT NULL,
-    CONSTRAINT "User_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "Address" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "password" TEXT NOT NULL,
+    "phoneNumber" TEXT NOT NULL,
+    "addressId" INTEGER,
+    CONSTRAINT "User_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "Address" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -134,6 +136,9 @@ CREATE UNIQUE INDEX "Fuel_type_key" ON "Fuel"("type");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Drivetrain_type_key" ON "Drivetrain"("type");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_CarFeatures_AB_unique" ON "_CarFeatures"("A", "B");

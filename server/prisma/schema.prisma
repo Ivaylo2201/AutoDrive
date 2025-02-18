@@ -42,11 +42,14 @@ model Make {
     id   Int    @id @default(autoincrement())
     name String @unique
     cars Car[]
+    models Model[]
 }
 
 model Model {
     id   Int    @id @default(autoincrement())
     name String @unique
+    makeId Int
+    make Make @relation(fields: [makeId], references: [id])
     cars Car[]
 }
 
@@ -82,7 +85,7 @@ model Drivetrain {
 
 model Feature {
     id   Int    @id @default(autoincrement())
-    name String
+    name String @unique
     cars Car[]  @relation("CarFeatures")
 }
 
