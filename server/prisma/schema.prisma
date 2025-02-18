@@ -1,0 +1,118 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+}
+
+model Car {
+    id                 String       @id @default(uuid())
+    makeId             Int
+    make               Make         @relation(fields: [makeId], references: [id])
+    modelId            Int
+    model              Model        @relation(fields: [modelId], references: [id])
+    bodyId             Int
+    body               Body         @relation(fields: [bodyId], references: [id])
+    colorId            Int
+    color              Color        @relation(fields: [colorId], references: [id])
+    transmissionId     Int
+    transmission       Transmission @relation(fields: [transmissionId], references: [id])
+    fuelId             Int
+    fuel               Fuel         @relation(fields: [fuelId], references: [id])
+    drivetrainId       Int
+    drivetrain         Drivetrain   @relation(fields: [drivetrainId], references: [id])
+    year               Int
+    price              Decimal
+    discountPercentage Int          @default(0)
+    mileage            Int
+    horsepower         Int
+    seats              Int
+    doors              Int
+    description        String?
+    createdAt          DateTime     @default(now())
+    features           Feature[]    @relation("CarFeatures")
+    images             Image[]
+    ownerId            String
+    owner              User         @relation(fields: [ownerId], references: [id])
+}
+
+model Make {
+    id   Int    @id @default(autoincrement())
+    name String @unique
+    cars Car[]
+}
+
+model Model {
+    id   Int    @id @default(autoincrement())
+    name String @unique
+    cars Car[]
+}
+
+model Body {
+    id   Int    @id @default(autoincrement())
+    type String @unique
+    cars Car[]
+}
+
+model Color {
+    id   Int    @id @default(autoincrement())
+    name String @unique
+    cars Car[]
+}
+
+model Transmission {
+    id   Int    @id @default(autoincrement())
+    type String @unique
+    cars Car[]
+}
+
+model Fuel {
+    id   Int    @id @default(autoincrement())
+    type String @unique
+    cars Car[]
+}
+
+model Drivetrain {
+    id   Int    @id @default(autoincrement())
+    type String @unique
+    cars Car[]
+}
+
+model Feature {
+    id   Int    @id @default(autoincrement())
+    name String
+    cars Car[]  @relation("CarFeatures")
+}
+
+model Image {
+    id    Int    @id @default(autoincrement())
+    path  String
+    carId String
+    car   Car    @relation(fields: [carId], references: [id])
+}
+
+model User {
+    id          String   @id @default(uuid())
+    username    String   @unique
+    password    String
+    phoneNumber String
+    addressId   Int?
+    address     Address? @relation(fields: [addressId], references: [id])
+    cars        Car[]
+}
+
+model Address {
+    id     Int    @id @default(autoincrement())
+    street String
+    cityId Int
+    city   City   @relation(fields: [cityId], references: [id])
+    User   User[]
+}
+
+model City {
+    id      Int       @id @default(autoincrement())
+    name    String
+    Address Address[]
+}
