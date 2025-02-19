@@ -11,8 +11,6 @@ async function truncate() {
   await prisma.transmission.deleteMany({});
   await prisma.fuel.deleteMany({});
   await prisma.drivetrain.deleteMany({});
-  await prisma.address.deleteMany({});
-  await prisma.city.deleteMany({});
 
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Image'`;
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Feature'`;
@@ -24,8 +22,6 @@ async function truncate() {
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Transmission'`;
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Fuel'`;
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Drivetrain'`;
-  await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Address'`;
-  await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='City'`;
 
   console.log('Database successfully truncated.');
 }
@@ -35,23 +31,11 @@ async function main() {
 
   console.log('Seeding started.');
 
-  await prisma.city.createMany({
-    data: [{ name: 'New York' }, { name: 'Los Angeles' }]
-  });
-
-  await prisma.address.createMany({
-    data: [
-      { street: '123 5th Avenue', cityId: 1 },
-      { street: '456 Sunset Blvd', cityId: 2 }
-    ]
-  });
-
   const user1 = await prisma.user.create({
     data: {
       username: 'John',
       password: 'password123',
       phoneNumber: '0888888888',
-      addressId: 1
     }
   });
 
@@ -60,7 +44,6 @@ async function main() {
       username: 'Alex',
       password: 'password456',
       phoneNumber: '0999999999',
-      addressId: 2
     }
   });
 
@@ -343,13 +326,13 @@ async function main() {
         seats: 4,
         doors: 4,
         description: `A ${car.make} ${car.model}`,
-        owner: { connect: { id: car.ownerId } },
         features: {
           connect: car.features.map((feature) => ({ name: feature }))
         },
         images: {
           create: car.images.map((image) => ({ path: image }))
-        }
+        },
+        user: { connect: { id: car.ownerId } }
       }
     });
   }

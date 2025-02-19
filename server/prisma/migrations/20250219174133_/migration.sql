@@ -17,7 +17,7 @@ CREATE TABLE "Car" (
     "doors" INTEGER NOT NULL,
     "description" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "ownerId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     CONSTRAINT "Car_makeId_fkey" FOREIGN KEY ("makeId") REFERENCES "Make" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Car_modelId_fkey" FOREIGN KEY ("modelId") REFERENCES "Model" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Car_bodyId_fkey" FOREIGN KEY ("bodyId") REFERENCES "Body" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -25,7 +25,7 @@ CREATE TABLE "Car" (
     CONSTRAINT "Car_transmissionId_fkey" FOREIGN KEY ("transmissionId") REFERENCES "Transmission" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Car_fuelId_fkey" FOREIGN KEY ("fuelId") REFERENCES "Fuel" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Car_drivetrainId_fkey" FOREIGN KEY ("drivetrainId") REFERENCES "Drivetrain" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Car_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Car_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable

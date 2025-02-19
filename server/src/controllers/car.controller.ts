@@ -2,9 +2,10 @@ import { Request, Response } from 'express';
 
 import { prisma } from '@config';
 import StatusCode from 'src/utils/StatusCode';
+import { z } from 'zod';
+import { addSchema } from '@schemas/add.schema';
 
 type CarSearchQueryParams = Partial<{
-  location: string;
   body: string;
   make: string;
   price: {
@@ -14,43 +15,11 @@ type CarSearchQueryParams = Partial<{
   color: string;
 }>;
 
-const fields = {
-  id: true,
-  make: { select: { name: true } },
-  model: { select: { name: true } },
-  body: { select: { type: true } },
-  color: { select: { name: true } },
-  transmission: { select: { type: true } },
-  fuel: { select: { type: true } },
-  drivetrain: { select: { type: true } },
-  year: true,
-  price: true,
-  torque: true,
-  mileage: true,
-  horsepower: true,
-  seats: true,
-  doors: true,
-  description: true,
-  createdAt: true,
-  owner: {
-    select: {
-      username: true,
-      phoneNumber: true,
-      address: {
-        select: { city: { select: { name: true } }, street: true }
-      }
-    }
-  },
-  features: { select: { name: true } },
-  images: { select: { path: true } }
-};
-
 export async function getAllCars(req: Request, res: Response) {
   const query: CarSearchQueryParams = req.query;
 
   const cars = await prisma.car.findMany({
     where: {
-      owner: { address: { city: { name: query.location } } },
       body: { type: query.body },
       make: { name: query.make },
       price: {
@@ -59,73 +28,89 @@ export async function getAllCars(req: Request, res: Response) {
       },
       color: { name: query.color }
     },
-    select: fields
+    select: {
+      id: true,
+      make: { select: { name: true } },
+      model: { select: { name: true } },
+      fuel: { select: { type: true } },
+      transmission: { select: { type: true } },
+      price: true,
+      mileage: true,
+      images: { select: { path: true } }
+    }
   });
 
   res.status(StatusCode.OK).json(cars);
 }
 
-export async function getCarById(req: Request, res: Response) {
-  const { id } = req.params;
-
-  const car = await prisma.car.findUnique({ where: { id }, select: fields });
+export async function getCarById(req: Request<{ id: string }>, res: Response) {
+  const car = await prisma.car.findUnique({
+    where: { id: req.params.id },
+    select: {
+      id: true,
+      make: { select: { name: true } },
+      model: { select: { name: true } },
+      body: { select: { type: true } },
+      color: { select: { name: true } },
+      transmission: { select: { type: true } },
+      fuel: { select: { type: true } },
+      drivetrain: { select: { type: true } },
+      year: true,
+      price: true,
+      torque: true,
+      mileage: true,
+      horsepower: true,
+      seats: true,
+      doors: true,
+      description: true,
+      createdAt: true,
+      user: {
+        select: {
+          username: true,
+          phoneNumber: true
+        }
+      },
+      features: { select: { name: true } },
+      images: { select: { path: true } }
+    }
+  });
 
   if (!car) {
     res
       .status(StatusCode.NOT_FOUND)
-      .json({ message: `Car '${id}' not found.` });
+      .json({ message: `The requested resource was not found on the server.` });
+    return;
   }
 
   res.status(StatusCode.OK).json(car);
 }
 
-export async function addCar(req: Request, res: Response) {
+export async function addCar(
+  req: Request<{}, {}, z.infer<typeof addSchema> & { userId: string }>,
+  res: Response
+) {
   if (req.files?.length === 0 || !(req.files instanceof Array)) {
-    res.status(StatusCode.BAD_REQUEST).json({ message: 'No images provided.' });
+    res
+      .status(StatusCode.BAD_REQUEST)
+      .json({ message: 'Images were not provided.' });
     return;
   }
 
-  try {
-    const car = await prisma.car.create({
-      data: {
-        make: { connect: { id: Number(req.body.makeId) } },
-        model: { connect: { id: Number(req.body.modelId) } },
-        body: { connect: { id: Number(req.body.bodyId) } },
-        color: { connect: { id: Number(req.body.colorId) } },
-        transmission: { connect: { id: Number(req.body.transmissionId) } },
-        drivetrain: { connect: { id: Number(req.body.drivetrainId) } },
-        fuel: { connect: { id: Number(req.body.fuelId) } },
-        year: Number(req.body.year),
-        price: Number(req.body.price),
-        torque: Number(req.body.torque),
-        mileage: Number(req.body.mileage),
-        horsepower: Number(req.body.horsepower),
-        seats: Number(req.body.seats),
-        doors: Number(req.body.doors),
-        description: req.body.description,
-        features: {
-          connect: req.body.features.map((feature: string) => ({
-            id: Number(feature)
-          }))
-        },
-        owner: { connect: { id: req.body.user.id } }
+  await prisma.car.create({
+    data: {
+      ...req.body,
+      features: {
+        connect: req.body.features.map((feature) => ({
+          id: Number(feature)
+        }))
+      },
+      images: {
+        create: req.files.map((file) => ({
+          path: file.path
+        }))
       }
-    });
+    }
+  });
 
-    const images = await prisma.image.createMany({
-      data: (req.files as Express.Multer.File[]).map((file) => ({
-        path: file.path,
-        carId: car.id
-      }))
-    });
-
-    res.status(StatusCode.CREATED).json(
-      await prisma.car.findUnique({
-        where: { id: car.id },
-        select: fields
-      })
-    );
-  } catch (e) {
-    throw e;
-  }
+  res.status(StatusCode.CREATED).json({ message: 'Car created successfully.' });
 }

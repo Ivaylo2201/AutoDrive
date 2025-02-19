@@ -4,6 +4,7 @@ import validate from '@middlewares/validate.middleware';
 import { addSchema } from '@schemas/add.schema';
 import authenticate from '@middlewares/authenticate.middleware';
 import { upload } from '@config';
+import parseFormDataNumbers from '@middlewares/parseFormDataNumbers.middleware';
 
 const carsRouter = Router();
 
@@ -11,7 +12,12 @@ carsRouter.get('/', getAllCars);
 carsRouter.get('/:id', getCarById);
 carsRouter.post(
   '/add',
-  [upload.array('images'), validate(addSchema), authenticate],
+  [
+    upload.array('images'),
+    parseFormDataNumbers,
+    validate(addSchema),
+    authenticate
+  ],
   addCar
 );
 

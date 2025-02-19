@@ -34,7 +34,7 @@ export async function signUp(req: Request, res: Response) {
 
   if (exists) {
     res
-      .status(StatusCode.BAD_REQUEST)
+      .status(StatusCode.CONFLICT)
       .json({ message: 'Username already taken.' });
     return;
   }

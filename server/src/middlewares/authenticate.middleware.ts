@@ -16,7 +16,7 @@ export default function authenticate(
 
   try {
     const user = tokenService.verify(token);
-    req.body.user = user;
+    req.body.userId = user.id;
     next();
   } catch {
     res.status(StatusCode.UNAUTHORIZED).json({ message: 'Invalid token.' });
