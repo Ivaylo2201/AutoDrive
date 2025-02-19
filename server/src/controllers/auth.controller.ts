@@ -9,7 +9,7 @@ export async function signIn(req: Request, res: Response) {
 
   const user = await prisma.user.findUnique({ where: { username } });
 
-  if (!user || !(await bcrypt.compare(user.password, password))) {
+  if (!user || !(await bcrypt.compare(password, user.password))) {
     res
       .status(StatusCode.UNAUTHORIZED)
       .json({ message: 'Invalid credentials.' });

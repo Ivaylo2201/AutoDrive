@@ -10,7 +10,7 @@ CREATE TABLE "Car" (
     "drivetrainId" INTEGER NOT NULL,
     "year" INTEGER NOT NULL,
     "price" DECIMAL NOT NULL,
-    "discountPercentage" INTEGER NOT NULL DEFAULT 0,
+    "torque" INTEGER NOT NULL,
     "mileage" INTEGER NOT NULL,
     "horsepower" INTEGER NOT NULL,
     "seats" INTEGER NOT NULL,
@@ -37,7 +37,9 @@ CREATE TABLE "Make" (
 -- CreateTable
 CREATE TABLE "Model" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL
+    "name" TEXT NOT NULL,
+    "makeId" INTEGER NOT NULL,
+    CONSTRAINT "Model_makeId_fkey" FOREIGN KEY ("makeId") REFERENCES "Make" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -136,6 +138,9 @@ CREATE UNIQUE INDEX "Fuel_type_key" ON "Fuel"("type");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Drivetrain_type_key" ON "Drivetrain"("type");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Feature_name_key" ON "Feature"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");

@@ -8,49 +8,49 @@ datasource db {
 }
 
 model Car {
-    id                 String       @id @default(uuid())
-    makeId             Int
-    make               Make         @relation(fields: [makeId], references: [id])
-    modelId            Int
-    model              Model        @relation(fields: [modelId], references: [id])
-    bodyId             Int
-    body               Body         @relation(fields: [bodyId], references: [id])
-    colorId            Int
-    color              Color        @relation(fields: [colorId], references: [id])
-    transmissionId     Int
-    transmission       Transmission @relation(fields: [transmissionId], references: [id])
-    fuelId             Int
-    fuel               Fuel         @relation(fields: [fuelId], references: [id])
-    drivetrainId       Int
-    drivetrain         Drivetrain   @relation(fields: [drivetrainId], references: [id])
-    year               Int
-    price              Decimal
-    discountPercentage Int          @default(0)
-    mileage            Int
-    horsepower         Int
-    seats              Int
-    doors              Int
-    description        String?
-    createdAt          DateTime     @default(now())
-    features           Feature[]    @relation("CarFeatures")
-    images             Image[]
-    ownerId            String
-    owner              User         @relation(fields: [ownerId], references: [id])
+    id             String       @id @default(uuid())
+    makeId         Int
+    make           Make         @relation(fields: [makeId], references: [id])
+    modelId        Int
+    model          Model        @relation(fields: [modelId], references: [id])
+    bodyId         Int
+    body           Body         @relation(fields: [bodyId], references: [id])
+    colorId        Int
+    color          Color        @relation(fields: [colorId], references: [id])
+    transmissionId Int
+    transmission   Transmission @relation(fields: [transmissionId], references: [id])
+    fuelId         Int
+    fuel           Fuel         @relation(fields: [fuelId], references: [id])
+    drivetrainId   Int
+    drivetrain     Drivetrain   @relation(fields: [drivetrainId], references: [id])
+    year           Int
+    price          Decimal
+    torque         Int
+    mileage        Int
+    horsepower     Int
+    seats          Int
+    doors          Int
+    description    String?
+    createdAt      DateTime     @default(now())
+    features       Feature[]    @relation("CarFeatures")
+    images         Image[]
+    ownerId        String
+    owner          User         @relation(fields: [ownerId], references: [id])
 }
 
 model Make {
-    id   Int    @id @default(autoincrement())
-    name String @unique
-    cars Car[]
+    id     Int     @id @default(autoincrement())
+    name   String  @unique
+    cars   Car[]
     models Model[]
 }
 
 model Model {
-    id   Int    @id @default(autoincrement())
-    name String @unique
+    id     Int    @id @default(autoincrement())
+    name   String @unique
     makeId Int
-    make Make @relation(fields: [makeId], references: [id])
-    cars Car[]
+    make   Make   @relation(fields: [makeId], references: [id])
+    cars   Car[]
 }
 
 model Body {

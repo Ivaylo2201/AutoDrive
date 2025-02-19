@@ -1,10 +1,18 @@
 import { Router } from 'express';
-import { getAllCars, getCarById } from '@controllers/car.controller';
+import { addCar, getAllCars, getCarById } from '@controllers/car.controller';
+import validate from '@middlewares/validate.middleware';
+import { addSchema } from '@schemas/add.schema';
+import authenticate from '@middlewares/authenticate.middleware';
+import { upload } from '@config';
 
 const carsRouter = Router();
 
-carsRouter.get('/', getAllCars); 
-carsRouter.get('/:id', getCarById); 
-// carsRouter.post('/add', validate(refreshSchema), refreshToken);
+carsRouter.get('/', getAllCars);
+carsRouter.get('/:id', getCarById);
+carsRouter.post(
+  '/add',
+  [upload.array('images'), validate(addSchema), authenticate],
+  addCar
+);
 
 export default carsRouter;

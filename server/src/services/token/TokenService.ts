@@ -16,5 +16,9 @@ export default class TokenService<T extends object> {
     const payload = this._refreshTokenService.decode(refreshToken);
     return { access: this._accessTokenService.encode(payload) };
   }
+
+  public verify(authorizationToken: string) {
+    return this._accessTokenService.decode(authorizationToken);
+  }
 }
 

@@ -18,7 +18,7 @@ export const upload = multer({
     destination: 'assets/',
     filename: (_, file, cb) => {
       const now = new Date().toISOString().replace(/[:.]/g, '-');
-      cb(null, `${uuid()}-${now}`);
+      cb(null, `${uuid()}-${now}-${file.originalname}`);
     }
   })
 });

@@ -11,7 +11,6 @@ async function truncate() {
   await prisma.transmission.deleteMany({});
   await prisma.fuel.deleteMany({});
   await prisma.drivetrain.deleteMany({});
-  await prisma.user.deleteMany({});
   await prisma.address.deleteMany({});
   await prisma.city.deleteMany({});
 
@@ -25,7 +24,6 @@ async function truncate() {
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Transmission'`;
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Fuel'`;
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Drivetrain'`;
-  await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='User'`;
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Address'`;
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='City'`;
 
@@ -161,6 +159,7 @@ async function main() {
       body: 'Hatchback',
       color: 'Red',
       transmission: 'Automatic',
+      torque: 100,
       fuel: 'Petrol',
       drivetrain: 'AWD',
       year: 2022,
@@ -177,6 +176,7 @@ async function main() {
       body: 'SUV',
       color: 'Black',
       transmission: 'Automatic',
+      torque: 150,
       fuel: 'Diesel',
       drivetrain: 'AWD',
       year: 2021,
@@ -193,6 +193,7 @@ async function main() {
       body: 'Hatchback',
       color: 'White',
       transmission: 'Manual',
+      torque: 125,
       fuel: 'Petrol',
       drivetrain: 'FWD',
       year: 2020,
@@ -209,6 +210,7 @@ async function main() {
       body: 'Hatchback',
       color: 'Blue',
       transmission: 'Automatic',
+      torque: 120,
       fuel: 'Electric',
       drivetrain: 'RWD',
       year: 2023,
@@ -225,6 +227,7 @@ async function main() {
       body: 'Sedan',
       color: 'Gray',
       transmission: 'Automatic',
+      torque: 115,
       fuel: 'Hybrid',
       drivetrain: 'AWD',
       year: 2022,
@@ -241,6 +244,7 @@ async function main() {
       body: 'Sedan',
       color: 'Red',
       transmission: 'Manual',
+      torque: 100,
       fuel: 'Petrol',
       drivetrain: 'FWD',
       year: 2019,
@@ -257,6 +261,7 @@ async function main() {
       body: 'Coupe',
       color: 'Yellow',
       transmission: 'Manual',
+      torque: 220,
       fuel: 'Petrol',
       drivetrain: 'AWD',
       year: 2022,
@@ -273,6 +278,7 @@ async function main() {
       body: 'Sedan',
       color: 'White',
       transmission: 'Automatic',
+      torque: 150,
       fuel: 'Diesel',
       drivetrain: 'FWD',
       year: 2021,
@@ -289,6 +295,7 @@ async function main() {
       body: 'Sedan',
       color: 'Black',
       transmission: 'Automatic',
+      torque: 145,
       fuel: 'Hybrid',
       drivetrain: '4WD',
       year: 2023,
@@ -305,6 +312,7 @@ async function main() {
       body: 'Sedan',
       color: 'Gray',
       transmission: 'Automatic',
+      torque: 155,
       fuel: 'Petrol',
       drivetrain: 'AWD',
       year: 2020,
@@ -329,7 +337,7 @@ async function main() {
         drivetrain: { connect: { type: car.drivetrain } },
         year: car.year,
         price: car.price,
-        discountPercentage: 0,
+        torque: car.torque,
         mileage: 10000,
         horsepower: 200,
         seats: 4,
