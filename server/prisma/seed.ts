@@ -11,6 +11,7 @@ async function truncate() {
   await prisma.transmission.deleteMany({});
   await prisma.fuel.deleteMany({});
   await prisma.drivetrain.deleteMany({});
+  await prisma.user.deleteMany({});
 
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Image'`;
   await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Feature'`;
@@ -35,7 +36,7 @@ async function main() {
     data: {
       username: 'John',
       password: 'password123',
-      phoneNumber: '0888888888',
+      phoneNumber: '0888888888'
     }
   });
 
@@ -43,9 +44,14 @@ async function main() {
     data: {
       username: 'Alex',
       password: 'password456',
-      phoneNumber: '0999999999',
+      phoneNumber: '0999999999'
     }
   });
+
+  const suv = await prisma.body.create({ data: { type: 'SUV' } });
+  const hatchback = await prisma.body.create({ data: { type: 'Hatchback' } });
+  const sedan = await prisma.body.create({ data: { type: 'Sedan' } });
+  const coupe = await prisma.body.create({ data: { type: 'Coupe' } });
 
   const audi = await prisma.make.create({
     data: { name: 'Audi' }
@@ -68,20 +74,21 @@ async function main() {
 
   await prisma.model.createMany({
     data: [
-      { name: 'A3', makeId: audi.id },
-      { name: 'A4', makeId: audi.id },
-      { name: 'X5', makeId: bmw.id },
-      { name: 'M3', makeId: bmw.id },
-      { name: 'Golf', makeId: vw.id },
-      { name: 'Passat', makeId: vw.id },
-      { name: 'C-Class', makeId: mercedes.id },
-      { name: 'E-Class', makeId: mercedes.id },
-      { name: '308', makeId: peugeot.id },
-      { name: '508', makeId: peugeot.id },
-      { name: 'Corolla', makeId: toyota.id },
-      { name: 'Camry', makeId: toyota.id }
+      { name: 'A3', makeId: audi.id, bodyId: hatchback.id },
+      { name: 'A4', makeId: audi.id, bodyId: sedan.id },
+      { name: 'X5', makeId: bmw.id, bodyId: suv.id },
+      { name: 'M3', makeId: bmw.id, bodyId: coupe.id },
+      { name: 'Golf', makeId: vw.id, bodyId: hatchback.id },
+      { name: 'Passat', makeId: vw.id, bodyId: sedan.id },
+      { name: 'C-Class', makeId: mercedes.id, bodyId: sedan.id },
+      { name: 'E-Class', makeId: mercedes.id, bodyId: sedan.id },
+      { name: '308', makeId: peugeot.id, bodyId: hatchback.id },
+      { name: '508', makeId: peugeot.id, bodyId: sedan.id },
+      { name: 'Corolla', makeId: toyota.id, bodyId: sedan.id },
+      { name: 'Camry', makeId: toyota.id, bodyId: sedan.id }
     ]
   });
+  
 
   await prisma.feature.createMany({
     data: [
@@ -100,15 +107,6 @@ async function main() {
 
   await prisma.drivetrain.createMany({
     data: [{ type: 'AWD' }, { type: 'RWD' }, { type: 'FWD' }, { type: '4WD' }]
-  });
-
-  await prisma.body.createMany({
-    data: [
-      { type: 'SUV' },
-      { type: 'Hatchback' },
-      { type: 'Sedan' },
-      { type: 'Coupe' }
-    ]
   });
 
   await prisma.color.createMany({
@@ -139,7 +137,6 @@ async function main() {
     {
       make: 'VW',
       model: 'Golf',
-      body: 'Hatchback',
       color: 'Red',
       transmission: 'Automatic',
       torque: 100,
@@ -156,7 +153,6 @@ async function main() {
     {
       make: 'BMW',
       model: 'X5',
-      body: 'SUV',
       color: 'Black',
       transmission: 'Automatic',
       torque: 150,
@@ -173,7 +169,6 @@ async function main() {
     {
       make: 'Audi',
       model: 'A3',
-      body: 'Hatchback',
       color: 'White',
       transmission: 'Manual',
       torque: 125,
@@ -190,7 +185,6 @@ async function main() {
     {
       make: 'Peugeot',
       model: '308',
-      body: 'Hatchback',
       color: 'Blue',
       transmission: 'Automatic',
       torque: 120,
@@ -207,7 +201,6 @@ async function main() {
     {
       make: 'Mercedes',
       model: 'C-Class',
-      body: 'Sedan',
       color: 'Gray',
       transmission: 'Automatic',
       torque: 115,
@@ -224,7 +217,6 @@ async function main() {
     {
       make: 'Toyota',
       model: 'Corolla',
-      body: 'Sedan',
       color: 'Red',
       transmission: 'Manual',
       torque: 100,
@@ -241,7 +233,6 @@ async function main() {
     {
       make: 'BMW',
       model: 'M3',
-      body: 'Coupe',
       color: 'Yellow',
       transmission: 'Manual',
       torque: 220,
@@ -258,7 +249,6 @@ async function main() {
     {
       make: 'VW',
       model: 'Passat',
-      body: 'Sedan',
       color: 'White',
       transmission: 'Automatic',
       torque: 150,
@@ -275,7 +265,6 @@ async function main() {
     {
       make: 'Mercedes',
       model: 'E-Class',
-      body: 'Sedan',
       color: 'Black',
       transmission: 'Automatic',
       torque: 145,
@@ -292,7 +281,6 @@ async function main() {
     {
       make: 'Audi',
       model: 'A4',
-      body: 'Sedan',
       color: 'Gray',
       transmission: 'Automatic',
       torque: 155,
@@ -313,7 +301,6 @@ async function main() {
       data: {
         make: { connect: { name: car.make } },
         model: { connect: { name: car.model } },
-        body: { connect: { type: car.body } },
         color: { connect: { name: car.color } },
         transmission: { connect: { type: car.transmission } },
         fuel: { connect: { type: car.fuel } },

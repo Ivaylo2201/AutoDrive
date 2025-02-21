@@ -13,8 +13,6 @@ model Car {
     make           Make         @relation(fields: [makeId], references: [id])
     modelId        Int
     model          Model        @relation(fields: [modelId], references: [id])
-    bodyId         Int
-    body           Body         @relation(fields: [bodyId], references: [id])
     colorId        Int
     color          Color        @relation(fields: [colorId], references: [id])
     transmissionId Int
@@ -34,8 +32,8 @@ model Car {
     createdAt      DateTime     @default(now())
     features       Feature[]    @relation("CarFeatures")
     images         Image[]
-    userId        String
-    user          User         @relation(fields: [userId], references: [id])
+    userId         String
+    user           User         @relation(fields: [userId], references: [id])
 }
 
 model Make {
@@ -50,13 +48,15 @@ model Model {
     name   String @unique
     makeId Int
     make   Make   @relation(fields: [makeId], references: [id])
+    bodyId Int
+    body   Body   @relation(fields: [bodyId], references: [id])
     cars   Car[]
 }
 
 model Body {
-    id   Int    @id @default(autoincrement())
-    type String @unique
-    cars Car[]
+    id    Int     @id @default(autoincrement())
+    type  String  @unique
+    models Model[]
 }
 
 model Color {
@@ -97,8 +97,8 @@ model Image {
 }
 
 model User {
-    id          String   @id @default(uuid())
-    username    String   @unique
+    id          String @id @default(uuid())
+    username    String @unique
     password    String
     phoneNumber String
     cars        Car[]

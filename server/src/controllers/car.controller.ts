@@ -20,7 +20,6 @@ export async function getAllCars(req: Request, res: Response) {
 
   const cars = await prisma.car.findMany({
     where: {
-      body: { type: query.body },
       make: { name: query.make },
       price: {
         gte: query.price?.min,
@@ -50,7 +49,6 @@ export async function getCarById(req: Request<{ id: string }>, res: Response) {
       id: true,
       make: { select: { name: true } },
       model: { select: { name: true } },
-      body: { select: { type: true } },
       color: { select: { name: true } },
       transmission: { select: { type: true } },
       fuel: { select: { type: true } },
@@ -98,7 +96,20 @@ export async function addCar(
 
   await prisma.car.create({
     data: {
-      ...req.body,
+      make: { connect: { name: req.body.make } },
+      model: { connect: { name: req.body.model } },
+      color: { connect: { name: req.body.color } },
+      transmission: { connect: { type: req.body.transmission } },
+      fuel: { connect: { type: req.body.fuel } },
+      drivetrain: { connect: { type: req.body.drivetrain } },
+      year: req.body.year,
+      price: req.body.price,
+      torque: req.body.torque,
+      mileage: req.body.mileage,
+      horsepower: req.body.horsepower,
+      seats: req.body.seats,
+      doors: req.body.doors,
+      description: req.body.description,
       features: {
         connect: req.body.features.map((feature) => ({
           id: Number(feature)
@@ -108,9 +119,12 @@ export async function addCar(
         create: req.files.map((file) => ({
           path: file.path
         }))
-      }
+      },
+      user: { connect: { id: req.body.userId } }
     }
   });
 
   res.status(StatusCode.CREATED).json({ message: 'Car created successfully.' });
 }
+
+      

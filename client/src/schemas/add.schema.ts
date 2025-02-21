@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const addSchema = z.object({
   make: z.string({ required_error: 'Make is required.' }),

@@ -1,41 +1,47 @@
 import { prisma } from '@config';
+import capitalize from '@utils/capitalize';
 import StatusCode from '@utils/StatusCode';
 import { Router } from 'express';
 
 const dataRouter = Router();
 
-dataRouter.get('/models/:makeId', async (req, res) => {
+dataRouter.get('/models/:make', async (req, res) => {
+  if (!req.params.make === null) {
+    res.status(StatusCode.BAD_REQUEST).json({ message: 'Make not provided.' });
+    return;
+  }
+
   const models = await prisma.model.findMany({
     where: {
-      makeId: Number(req.params.makeId)
+      make: {
+        name: capitalize(req.params.make)
+      }
+    },
+    select: {
+      id: true,
+      name: true
     }
   });
-  res.status(StatusCode.OK).json(models);
+
+  if (models.length > 0) {
+    res.status(StatusCode.OK).json(models);
+  } else {
+    res.status(StatusCode.NOT_FOUND).json({ message: 'Make not found.' });
+  }
 });
 
-dataRouter.get('/makes', async (req, res) => {
-  res
-    .status(StatusCode.OK)
-    .json(await prisma.make.findMany({ include: { models: true } }));
-});
+dataRouter.get('/', async (req, res) => {
+  const data = {
+    makes: await prisma.make.findMany({ include: { models: true } }),
+    bodies: await prisma.body.findMany(),
+    colors: await prisma.color.findMany(),
+    transmissions: await prisma.transmission.findMany(),
+    fuels: await prisma.fuel.findMany(),
+    drivetrains: await prisma.drivetrain.findMany(),
+    features: await prisma.feature.findMany()
+  };
 
-dataRouter.get('/bodies', async (req, res) => {
-  res.status(StatusCode.OK).json(await prisma.body.findMany());
-});
-
-dataRouter.get('/colors', async (req, res) => {
-  res.status(StatusCode.OK).json(await prisma.color.findMany());
-});
-dataRouter.get('/transmissions', async (req, res) => {
-  res.status(StatusCode.OK).json(await prisma.transmission.findMany());
-});
-
-dataRouter.get('/fuels', async (req, res) => {
-  res.status(StatusCode.OK).json(await prisma.fuel.findMany());
-});
-
-dataRouter.get('/drivetrains', async (req, res) => {
-  res.status(StatusCode.OK).json(await prisma.drivetrain.findMany());
+  res.status(StatusCode.OK).json(data);
 });
 
 export default dataRouter;
