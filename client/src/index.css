@@ -6,6 +6,11 @@
   }
 }
 
+@theme {
+    --font-dmsans: 'DM Sans', sans-serif;
+    --font-bebas: 'Bebas Neue', serif;
+}
+
 .Toastify__toast {
   font-family: 'DM Sans', sans-serif !important;
 }

@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heading {
+  font-size: 2.25rem;
+  font-weight: 600;
+}
+
+.logos {
+  display: flex;
+  gap: 20px;
+}

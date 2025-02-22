@@ -1,5 +1,4 @@
 import { prisma } from '@config';
-import { Car } from '@prisma/client';
 
 async function truncate() {
   await prisma.image.deleteMany({});
