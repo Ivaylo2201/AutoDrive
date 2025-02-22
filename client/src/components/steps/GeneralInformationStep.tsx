@@ -4,6 +4,7 @@ import { useState } from 'react';
 import useServerData from '../../hooks/useServerData';
 import { Control, Controller, UseFormGetValues } from 'react-hook-form';
 import { AddSchema } from '../MultiForm';
+import formatResponse from '../../utils/formatResponse';
 
 type GeneralInformationStepProps = {
   getValues: UseFormGetValues<AddSchema>;
@@ -21,7 +22,7 @@ export default function GeneralInformationStep({
   const { data: models } = useModels(selectedMake);
 
   return (
-    <>
+    <div className='w-1/2'>
       <div className='grid grid-cols-2 grid-rows-5 gap-x-4 gap-y-2'>
         <Controller
           name='make'
@@ -32,7 +33,7 @@ export default function GeneralInformationStep({
               withAsterisk
               label='Make'
               placeholder='Choose a make.'
-              data={data?.makes.map((m) => m.name)}
+              data={formatResponse({ array: data?.makes, field: 'name' })}
               onChange={(make) => {
                 setSelectedMake(make);
                 field.onChange(make);
@@ -54,7 +55,7 @@ export default function GeneralInformationStep({
                   ? 'Choose a make first.'
                   : 'Choose a model.'
               }
-              data={models?.map((m) => m.name)}
+              data={formatResponse({ array: models, field: 'name' })}
               disabled={selectedMake === null}
               value={field.value}
             />
@@ -69,7 +70,7 @@ export default function GeneralInformationStep({
               withAsterisk
               label='Color'
               placeholder='Choose a color.'
-              data={data?.colors.map((c) => c.name)}
+              data={formatResponse({ array: data?.colors, field: 'name' })}
             />
           )}
         />
@@ -82,7 +83,7 @@ export default function GeneralInformationStep({
               withAsterisk
               label='Transmission'
               placeholder='Choose a transmission.'
-              data={data?.transmissions.map((t) => t.type)}
+              data={formatResponse({ array: data?.transmissions, field: 'type' })}
             />
           )}
         />
@@ -95,7 +96,7 @@ export default function GeneralInformationStep({
               withAsterisk
               label='Drivetrain'
               placeholder='Choose a drivetrain.'
-              data={data?.drivetrains.map((d) => d.type)}
+              data={formatResponse({ array: data?.drivetrains, field: 'type', mode: 'uppercase' })}
             />
           )}
         />
@@ -108,7 +109,7 @@ export default function GeneralInformationStep({
               withAsterisk
               label='Fuel'
               placeholder='Choose a fuel type.'
-              data={data?.fuels.map((f) => f.type)}
+              data={formatResponse({ array: data?.fuels, field: 'type' })}
             />
           )}
         />
@@ -230,6 +231,6 @@ export default function GeneralInformationStep({
           )}
         />
       </div>
-    </>
+    </div>
   );
 }

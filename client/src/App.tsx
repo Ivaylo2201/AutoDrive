@@ -5,7 +5,7 @@ import Router from './router';
 
 export default function App() {
   return (
-    <div className='p-40'>
+    <div className='p-10'>
       <MultiForm />
       <Router />
       <ToastContainer

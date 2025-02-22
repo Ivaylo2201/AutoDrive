@@ -16,7 +16,7 @@ export const addSchema = z.object({
   price: z
     .number({ required_error: 'Price is required.' })
     .positive({ message: 'Price must be a positive number.' })
-    .max(1000000, { message: 'Price cannot exceed 1,000,000.' }),
+    .max(10000000, { message: 'Price cannot exceed 10,000,000.' }),
   torque: z
     .number({ required_error: 'Torque is required.' })
     .positive({ message: 'Torque must be a positive number.' })
@@ -38,9 +38,11 @@ export const addSchema = z.object({
     .number({ required_error: 'Doors are required.' })
     .positive({ message: 'Doors must be a positive number.' })
     .max(10, { message: 'Doors cannot exceed 10.' }),
-
   description: z.string().optional(),
   features: z
     .array(z.object({ id: z.number() }))
-    .min(1, { message: 'At least one feature is required.' })
+    .min(1, { message: 'Check at least 1 feature.' }),
+  images: z
+    .array(z.instanceof(File))
+    .min(1, { message: 'Upload at least 1 image.' })
 });

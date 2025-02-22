@@ -14,8 +14,12 @@ export default function useModels(make: string | null) {
         return cached as Model[];
       }
 
-      const res = await http.get<Model[]>(`/data/models/${make}`);
-      return res.data;
+      try {
+        const res = await http.get<Model[]>(`/data/models/${make}`);
+        return res.data;
+      } catch {
+        return [];
+      }
     }
   });
 }

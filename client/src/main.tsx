@@ -10,7 +10,8 @@ import '@mantine/core/styles.css';
 const queryClient = new QueryClient();
 
 const theme = createTheme({
-  fontFamily: `'DM Sans', sans-serif`
+  fontFamily: `'DM Sans', sans-serif`,
+  cursorType: 'pointer',
 });
 
 createRoot(document.getElementById('root')!).render(

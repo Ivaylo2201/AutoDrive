@@ -14,7 +14,7 @@ dataRouter.get('/models/:make', async (req, res) => {
   const models = await prisma.model.findMany({
     where: {
       make: {
-        name: capitalize(req.params.make)
+        name: req.params.make.toLowerCase()
       }
     },
     select: {
