@@ -1,0 +1,27 @@
+.footer {
+  background-color: black;
+  height: 8rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.text {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}

@@ -6,7 +6,7 @@ export default function App() {
   return (
     <>
       <Router />
-      <ToastContainer />
+      <ToastContainer autoClose={3000} pauseOnHover={false} theme='dark' />
     </>
   );
 }

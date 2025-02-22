@@ -7,7 +7,6 @@ import GeneralInformationStep from './steps/GeneralInformationStep';
 import { addSchema } from '../schemas/add.schema';
 import FeaturesStep from './steps/FeaturesStep';
 import { toast } from 'react-toastify';
-import MediaStep from './steps/ImagesStep';
 import ImagesStep from './steps/ImagesStep';
 
 type MultiFormProps = {};
@@ -53,36 +52,36 @@ export default function MultiForm({}: MultiFormProps) {
   };
 
   return (
-    <div>
+    <div className='p-15'>
       <Stepper
-        color='rgba(158, 11, 11, 1)'
+        color='var(--theme-red)'
         active={active}
         onStepClick={setActive}
         orientation={stepperOrientation}
       >
         <Stepper.Step label='First step' description='General information'>
-          <Group justify='center' mt={25} mb={35}>
+          <Group justify='center' my={65}>
             <GeneralInformationStep control={control} getValues={getValues} />
           </Group>
         </Stepper.Step>
         <Stepper.Step label='Second step' description='Features'>
-          <Group justify='center' mt={25} mb={35}>
+          <Group justify='center' my={65}>
             <FeaturesStep control={control} getValues={getValues} />
           </Group>
         </Stepper.Step>
         <Stepper.Step label='Third step' description='Images'>
-          <Group justify='center' mt={25} mb={35}>
+          <Group justify='center' my={65}>
             <ImagesStep control={control} />
           </Group>
         </Stepper.Step>
       </Stepper>
       <Group justify='center'>
-        <Button color='rgba(158, 11, 11, 1)' onClick={goBack}>
+        <Button color='black' onClick={goBack} disabled={active === 0}>
           Back
         </Button>
         <Button
-          color='rgba(158, 11, 11, 1)'
-          className='bg-theme-yellow'
+          color='var(--theme-red)'
+          className='black'
           onClick={active === 2 ? handleSubmit(onSubmit) : proceed}
         >
           {active === 2 ? 'Finish' : 'Next'}

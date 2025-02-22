@@ -1,19 +1,18 @@
 import audiBackground from '../../assets/audibackground.jpg';
 import { ArrowTopRight } from '../../icons/ArrowTopRight';
 import Button from '../Button/Button';
+import styles from './HeroSection.module.css';
 
 export default function HeroSection() {
   return (
     <section
       style={{ backgroundImage: `url(${audiBackground})` }}
-      className='h-[35rem] bg-red-500 bg-cover'
+      className={styles.heroSection}
     >
-      <div className='text-white font-bold mt-34 ml-28'>
-        <p className='text-8xl'>Drive</p>
-        <p className='text-8xl'>Your</p>
-        <p className='text-8xl'>Dream.</p>
-        <Button to='/' className='mt-4 text-2xl py-3 gap-2'>
-          <p>Explore now</p>
+      <div className={styles.content}>
+        <p className={styles.text}>Drive your dream.</p>
+        <Button to='/' className={styles.button}>
+          <span>Explore now</span>
           <ArrowTopRight />
         </Button>
       </div>

@@ -7,10 +7,15 @@
 }
 
 @theme {
-    --font-dmsans: 'DM Sans', sans-serif;
-    --font-bebas: 'Bebas Neue', serif;
+  --font-dmsans: 'DM Sans', sans-serif;
+  --font-bebas: 'Bebas Neue', serif;
+  --color-theme-red: rgba(158, 11, 11, 1);
 }
 
 .Toastify__toast {
   font-family: 'DM Sans', sans-serif !important;
+}
+
+:root {
+  --theme-red: rgba(158, 11, 11, 1);
 }

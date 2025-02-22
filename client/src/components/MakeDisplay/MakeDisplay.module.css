@@ -2,6 +2,8 @@
   display: flex;
   justify-content: center;
   padding: 20px 0;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }
 
 .content {
@@ -12,7 +14,7 @@
 
 .heading {
   font-size: 2.25rem;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .logos {

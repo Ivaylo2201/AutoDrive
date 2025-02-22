@@ -2,32 +2,31 @@ import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../stores/useAuthStore';
 import Button from '../Button/Button';
 import Logo from '../Logo/Logo';
+import styles from './Navbar.module.css';
 
-type NavbarProps = {};
-
-export default function Navbar({}: NavbarProps) {
+export default function Navbar() {
   const { isAuthenticated } = useAuthStore();
 
   return (
-    <nav className='bg-white py-4 px-8 flex justify-between'>
+    <nav className={styles.navbar}>
       <Logo />
-      <div className='flex gap-8'>
-        <Link to={''} className='flex justify-center items-center'>
+      <div className={styles.links}>
+        <Link to='' className={styles.link}>
           Market
         </Link>
-        <Link to={''} className='flex justify-center items-center'>
+        <Link to='' className={styles.link}>
           Contacts
         </Link>
-        <Link to={''} className='flex justify-center items-center'>
+        <Link to='' className={styles.link}>
           About
         </Link>
       </div>
-      <div>
+      <div className={styles.authButtons}>
         {isAuthenticated ? (
-          <div className='flex gap-2'>
+          <>
             <Button to='/your-listings'>Your listings</Button>
-            <Button to='/add'>Add listing</Button>
-          </div>
+            <Button to='/add-listing'>Add listing</Button>
+          </>
         ) : (
           <Button to='/sign-in'>Sign in</Button>
         )}
