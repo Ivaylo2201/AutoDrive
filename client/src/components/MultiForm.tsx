@@ -8,27 +8,14 @@ import { addSchema } from '../schemas/add.schema';
 import FeaturesStep from './steps/FeaturesStep';
 import { toast } from 'react-toastify';
 import ImagesStep from './steps/ImagesStep';
-
-type MultiFormProps = {};
+import useAddCar from '../hooks/useAddCar';
 
 export type AddSchema = z.infer<typeof addSchema>;
 
-export default function MultiForm({}: MultiFormProps) {
+export default function MultiForm() {
   const [active, setActive] = useState(0);
-  const [stepperOrientation, setStepperOrientation] = useState<
-    'vertical' | 'horizontal'
-  >('horizontal');
+  const { mutate: addCar } = useAddCar();
 
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  const handleResize = () =>
-    setStepperOrientation(window.innerWidth < 650 ? 'vertical' : 'horizontal');
   const proceed = () => setActive((c) => (c < 3 ? c + 1 : c));
   const goBack = () => setActive((c) => (c > 0 ? c - 1 : c));
 
@@ -42,23 +29,14 @@ export default function MultiForm({}: MultiFormProps) {
     if (!result.success) {
       toast.error(result.error.errors[0].message);
     } else {
-      const obj = {
-        ...data,
-        features: data.features.map((f) => f.id)
-      };
-      console.log(obj);
+      addCar(data)
       toast.success('Car added successfully.');
     }
   };
 
   return (
     <div className='p-15'>
-      <Stepper
-        color='var(--theme-red)'
-        active={active}
-        onStepClick={setActive}
-        orientation={stepperOrientation}
-      >
+      <Stepper color='var(--theme-red)' active={active} onStepClick={setActive}>
         <Stepper.Step label='First step' description='General information'>
           <Group justify='center' my={65}>
             <GeneralInformationStep control={control} getValues={getValues} />
@@ -75,7 +53,7 @@ export default function MultiForm({}: MultiFormProps) {
           </Group>
         </Stepper.Step>
       </Stepper>
-      <Group justify='center'>
+      <Group justify='center' my={65}>
         <Button color='black' onClick={goBack} disabled={active === 0}>
           Back
         </Button>

@@ -1,4 +1,5 @@
-import { prisma } from '@config';
+import { prisma, SALT_ROUNDS } from '@config';
+import bcrypt from 'bcrypt';
 
 async function truncate() {
   await prisma.image.deleteMany({});
@@ -35,7 +36,7 @@ async function main() {
   const user1 = await prisma.user.create({
     data: {
       username: 'John',
-      password: 'password123',
+      password: await bcrypt.hash('password123', SALT_ROUNDS),
       phoneNumber: '0888888888'
     }
   });
@@ -43,7 +44,7 @@ async function main() {
   const user2 = await prisma.user.create({
     data: {
       username: 'Alex',
-      password: 'password456',
+      password: await bcrypt.hash('password123', SALT_ROUNDS),
       phoneNumber: '0999999999'
     }
   });
@@ -426,7 +427,7 @@ async function main() {
         connect: [{ id: 4 }, { id: 5 }]
       },
       images: {
-        create: [{ path: 'image1.jpg' }, { path: 'image2.jpg' }]
+        create: [{ path: 'vw.jpg' }]
       },
       user: { connect: { id: user1.id } }
     }

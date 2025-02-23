@@ -11,7 +11,7 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <Logo />
       <div className={styles.links}>
-        <Link to='' className={styles.link}>
+        <Link to='/market' className={styles.link}>
           Market
         </Link>
         <Link to='' className={styles.link}>
@@ -28,7 +28,7 @@ export default function Navbar() {
             <Button to='/add-listing'>Add listing</Button>
           </>
         ) : (
-          <Button to='/sign-in'>Sign in</Button>
+          <Button to='/auth/sign-in'>Sign in</Button>
         )}
       </div>
     </nav>

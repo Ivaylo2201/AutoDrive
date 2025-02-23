@@ -5,11 +5,12 @@ import styles from './Button.module.css';
 type ButtonProps = {
   to: string;
   className?: string;
+  onClick?: () => void;
 } & React.PropsWithChildren;
 
-export default function Button({ to, className, children }: ButtonProps) {
+export default function Button({ to, className, children, onClick }: ButtonProps) {
   return (
-    <Link to={to} className={`${styles.button} ${className || ''}`}>
+    <Link onClick={onClick} to={to} className={`${styles.button} ${className || ''}`}>
       {children}
     </Link>
   );

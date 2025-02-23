@@ -20,5 +20,6 @@ carsRouter.post(
   ],
   addCar
 );
+carsRouter.get('/your-listings', authenticate, getAllCars);
 
 export default carsRouter;

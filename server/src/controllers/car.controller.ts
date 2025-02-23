@@ -35,7 +35,7 @@ export async function getAllCars(req: Request, res: Response) {
       transmission: { select: { type: true } },
       price: true,
       mileage: true,
-      images: { select: { path: true } }
+      images: { select: { path: true }, take: 1 }
     }
   });
 
@@ -83,6 +83,32 @@ export async function getCarById(req: Request<{ id: string }>, res: Response) {
   res.status(StatusCode.OK).json(car);
 }
 
+export async function getUserCars(req: Request, res: Response) {
+  const cars = await prisma.car.findMany({
+    where: { user: { id: req.body.userId } },
+    select: {
+      id: true,
+      make: { select: { name: true } },
+      model: { select: { name: true } },
+      color: { select: { name: true } },
+      transmission: { select: { type: true } },
+      fuel: { select: { type: true } },
+      drivetrain: { select: { type: true } },
+      year: true,
+      price: true,
+      torque: true,
+      mileage: true,
+      horsepower: true,
+      seats: true,
+      doors: true,
+      description: true,
+      createdAt: true
+    }
+  });
+
+  res.status(StatusCode.OK).json(cars);
+}
+
 export async function addCar(
   req: Request<{}, {}, z.infer<typeof addSchema> & { userId: string }>,
   res: Response
@@ -126,5 +152,3 @@ export async function addCar(
 
   res.status(StatusCode.CREATED).json({ message: 'Car created successfully.' });
 }
-
-      
