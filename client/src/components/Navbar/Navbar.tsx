@@ -11,9 +11,6 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <Logo />
       <div className={styles.links}>
-        <Link to='/market' className={styles.link}>
-          Market
-        </Link>
         {isAuthenticated && (
           <>
             <Link to='/your-listings' className={styles.link}>

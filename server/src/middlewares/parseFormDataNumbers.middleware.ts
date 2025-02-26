@@ -15,7 +15,5 @@ export default function parseFormDataNumbers(
     ? req.body.features.map((feature: string) => Number(feature))
     : [Number(req.body.features)];
 
-  console.log(req.body);
-
   next();
 }

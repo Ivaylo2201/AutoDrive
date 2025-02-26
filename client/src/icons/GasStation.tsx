@@ -5,8 +5,8 @@ export function GasStation(props: SVGProps<SVGSVGElement>) {
     <svg
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 24 24'
-      width='1.75em'
-      height='1.75em'
+      width='1.5em'
+      height='1.5em'
       {...props}
     >
       <path

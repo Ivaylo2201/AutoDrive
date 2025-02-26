@@ -5,10 +5,15 @@ export default function Market() {
   const { data: cars } = useCars();
 
   return (
-    <section className='grid grid-cols-5 gap-2'>
-      {cars?.map((car) => (
-        <CarCard key={car.id} {...car} />
-      ))}
-    </section>
+    <div>
+      <div>
+        
+      </div>
+      <section className='flex flex-wrap justify-center gap-x-7 gap-y-5 p-5'>
+        {cars?.map((car) => (
+          <CarCard key={car.id} {...car} />
+        ))}
+      </section>
+    </div>
   );
 }

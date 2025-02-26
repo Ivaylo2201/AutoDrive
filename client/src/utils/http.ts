@@ -21,8 +21,10 @@ http.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       try {
+        console.log("Refreshing...");
         const res = await http.post('/auth/refresh');
         localStorage.setItem('access', res.data.access);
+        return http(error.config);
       } catch {
         localStorage.removeItem('access');
       }

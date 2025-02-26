@@ -10,13 +10,15 @@ import { toast } from 'react-toastify';
 import ImagesStep from './steps/ImagesStep';
 import useAddCar from '../hooks/useAddCar';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../stores/useAuthStore';
 
 export type AddSchema = z.infer<typeof addSchema>;
 
 export default function MultiForm() {
   const [active, setActive] = useState(0);
-  const { mutate: addCar } = useAddCar();
+  const { mutateAsync: addCar } = useAddCar();
   const navigate = useNavigate();
+  const { signOut } = useAuthStore();
 
   const proceed = () => setActive((c) => (c < 3 ? c + 1 : c));
   const goBack = () => setActive((c) => (c > 0 ? c - 1 : c));
@@ -25,15 +27,21 @@ export default function MultiForm() {
     defaultValues: { features: [], images: [] }
   });
 
-  const onSubmit = (data: AddSchema) => {
+  const onSubmit = async (data: AddSchema) => {
     const result = addSchema.safeParse(data);
 
     if (!result.success) {
       toast.error(result.error.errors[0].message);
-    } else {
-      addCar(result.data);
+      return;
+    }
+
+    try {
+      await addCar(result.data);
       toast.success('Car added successfully.');
       navigate('/');
+    } catch {
+      signOut();
+      navigate('/auth/sign-in');
     }
   };
 
