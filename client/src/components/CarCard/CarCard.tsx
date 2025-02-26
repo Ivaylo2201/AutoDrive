@@ -2,7 +2,7 @@ import { GasStation } from '../../icons/GasStation';
 import { Speedometer } from '../../icons/Speedometer';
 import { Transmission } from '../../icons/Transmission';
 import capitalize from '../../utils/capitalize';
-import Button from '../Button/Button';
+import Button from '../Link/Link';
 import CarStat from '../CarStat/CarStat';
 
 type CarCardProps = {
@@ -37,7 +37,7 @@ export default function CarCard({
   return (
     <article className='flex flex-col h-96 w-72 border border-neutral-300  rounded-md overflow-hidden'>
       <img
-        src={`http://localhost:3000/assets/${images[0].path}`}
+        src={`http://localhost:3000/${images[0].path}`}
         alt={`${makeName} ${modelName}`}
         className='w-full h-48 object-cover'
       />

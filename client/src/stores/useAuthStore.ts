@@ -1,4 +1,5 @@
-import { create } from 'zustand';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 type AuthState = {
   isAuthenticated: boolean;
@@ -6,8 +7,15 @@ type AuthState = {
   signOut: () => void;
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
-  isAuthenticated: false,
-  signIn: () => set({ isAuthenticated: true }),
-  signOut: () => set({ isAuthenticated: false }),
-}));
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      isAuthenticated: false,
+      signIn: () => set({ isAuthenticated: true }),
+      signOut: () => set({ isAuthenticated: false }),
+    }),
+    {
+      name: "auth-storage",
+    }
+  )
+);

@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../stores/useAuthStore';
-import Button from '../Button/Button';
+import Button from '../Link/Link';
 import Logo from '../Logo/Logo';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, signOut } = useAuthStore();
 
   return (
     <nav className={styles.navbar}>
@@ -14,19 +14,20 @@ export default function Navbar() {
         <Link to='/market' className={styles.link}>
           Market
         </Link>
-        <Link to='' className={styles.link}>
-          Contacts
-        </Link>
-        <Link to='' className={styles.link}>
-          About
-        </Link>
+        {isAuthenticated && (
+          <>
+            <Link to='/your-listings' className={styles.link}>
+              Your listings
+            </Link>
+            <Link to='/add-listing' className={styles.link}>
+              Add listing
+            </Link>
+          </>
+        )}
       </div>
       <div className={styles.authButtons}>
         {isAuthenticated ? (
-          <>
-            <Button to='/your-listings'>Your listings</Button>
-            <Button to='/add-listing'>Add listing</Button>
-          </>
+          <button onClick={signOut}>Sign out</button>
         ) : (
           <Button to='/auth/sign-in'>Sign in</Button>
         )}

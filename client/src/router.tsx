@@ -6,6 +6,7 @@ import MultiForm from './components/MultiForm';
 import Market from './components/Market/Market';
 import ProtectedLayout from './layouts/ProtectedLayout/ProtectedLayout';
 import SignInForm from './components/SignInForm/SignInForm';
+import SignUpForm from './components/SignUpForm.tsx/SignUpForm';
 
 export default function Router() {
   return (
@@ -37,10 +38,16 @@ export default function Router() {
           </NavbarLayout>
         }
       />
+      <Route path='/auth/sign-in' element={<SignInForm />} />
+      <Route path='/auth/sign-up' element={<SignUpForm />} />
       <Route
-        path='/auth/sign-in'
+        path='/your-listings'
         element={
-          <SignInForm />
+          <ProtectedLayout>
+            <NavbarLayout>
+              <></>
+            </NavbarLayout>
+          </ProtectedLayout>
         }
       />
       <Route path='*' element={<></>} />

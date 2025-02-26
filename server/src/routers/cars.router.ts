@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { addCar, getAllCars, getCarById } from '@controllers/car.controller';
+import { addCar, getAllCars, getCarById, getUserCars } from '@controllers/car.controller';
 import validate from '@middlewares/validate.middleware';
 import { addSchema } from '@schemas/add.schema';
 import authenticate from '@middlewares/authenticate.middleware';
@@ -13,13 +13,13 @@ carsRouter.get('/:id', getCarById);
 carsRouter.post(
   '/add',
   [
-    upload.array('images'),
+    upload.array('images[]', 8),
     parseFormDataNumbers,
     validate(addSchema),
     authenticate
   ],
   addCar
 );
-carsRouter.get('/your-listings', authenticate, getAllCars);
+carsRouter.get('/your-listings', authenticate, getUserCars);
 
 export default carsRouter;

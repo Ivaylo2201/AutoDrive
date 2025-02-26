@@ -1,6 +1,6 @@
 import audiBackground from '../../assets/audibackground.jpg';
 import { ArrowTopRight } from '../../icons/ArrowTopRight';
-import Button from '../Button/Button';
+import Link from '../Link/Link';
 import styles from './HeroSection.module.css';
 
 export default function HeroSection() {
@@ -11,10 +11,10 @@ export default function HeroSection() {
     >
       <div className={styles.content}>
         <p className={styles.text}>Drive your dream.</p>
-        <Button to='/' className={styles.button}>
+        <Link to='/market' className={styles.button}>
           <span>Explore now</span>
           <ArrowTopRight />
-        </Button>
+        </Link>
       </div>
     </section>
   );

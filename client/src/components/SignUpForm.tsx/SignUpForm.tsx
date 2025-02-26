@@ -6,26 +6,26 @@ import { Link, useNavigate } from 'react-router-dom';
 import { http } from '../../utils/http';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
+import signUpSchema from '../../schemas/signUp.schema';
+import { z } from 'zod';
 import { useAuthStore } from '../../stores/useAuthStore';
 
-type SignInFormData = { username: string; password: string };
+type SignUpFormData = z.infer<typeof signUpSchema>;
 
-export default function SignInForm() {
-  const { register, handleSubmit } = useForm<SignInFormData>();
-  const navigate = useNavigate();
+export default function SignUpForm() {
+  const { register, handleSubmit } = useForm<SignUpFormData>();
   const { signIn } = useAuthStore();
+  const navigate = useNavigate();
 
-  const onSubmit = async (data: SignInFormData) => {
+  const onSubmit = async (data: SignUpFormData) => {
     try {
-      const res = await http.post('/auth/sign-in', data);
+      const res = await http.post('/auth/sign-up', data);
       localStorage.setItem('access', res.data.access);
       signIn();
-      navigate('/')
+      navigate('/');
     } catch (err) {
       if (err instanceof AxiosError) {
         toast.error(err.response?.data[0].message);
-      } else if (err instanceof Error) {
-        toast.error(err.message)
       }
     }
   };
@@ -46,12 +46,22 @@ export default function SignInForm() {
               variant='filled'
               {...register('password')}
             />
+            <TextInput
+              label='Phone number'
+              variant='filled'
+              {...register('phoneNumber')}
+            />
+            <PasswordInput
+              label='Password Confirmation'
+              variant='filled'
+              {...register('passwordConfirmation')}
+            />
           </div>
           <p>
-            Don't have an account? Sign up{' '}
+            Already have an account? Sign in{' '}
             <Link
               className='text-theme-red transition-colors duration-300'
-              to='/auth/sign-up'
+              to='/auth/sign-in'
             >
               here
             </Link>

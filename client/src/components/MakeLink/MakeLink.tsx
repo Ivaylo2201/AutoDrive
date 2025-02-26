@@ -9,7 +9,7 @@ type MakeLinkProps = {
 
 export default function MakeLink({ image, make, to }: MakeLinkProps) {
   return (
-    <Link to={to} className={styles.link}>
+    <Link to={`/market${to}`} className={styles.link}>
       <img src={image} alt={make} className={styles.image} />
       <h4 className={styles.make}>{make}</h4>
     </Link>

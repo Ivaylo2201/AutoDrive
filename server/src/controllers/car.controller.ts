@@ -113,6 +113,10 @@ export async function addCar(
   req: Request<{}, {}, z.infer<typeof addSchema> & { userId: string }>,
   res: Response
 ) {
+  // console.log(req.body);
+  console.log(req.files);
+  console.log(req.file);
+
   if (req.files?.length === 0 || !(req.files instanceof Array)) {
     res
       .status(StatusCode.BAD_REQUEST)
@@ -122,12 +126,12 @@ export async function addCar(
 
   await prisma.car.create({
     data: {
-      make: { connect: { name: req.body.make } },
-      model: { connect: { name: req.body.model } },
-      color: { connect: { name: req.body.color } },
-      transmission: { connect: { type: req.body.transmission } },
-      fuel: { connect: { type: req.body.fuel } },
-      drivetrain: { connect: { type: req.body.drivetrain } },
+      make: { connect: { name: req.body.make.toLowerCase() } },
+      model: { connect: { name: req.body.model.toLowerCase() } },
+      color: { connect: { name: req.body.color.toLowerCase() } },
+      transmission: { connect: { type: req.body.transmission.toLowerCase() } },
+      fuel: { connect: { type: req.body.fuel.toLowerCase() } },
+      drivetrain: { connect: { type: req.body.drivetrain.toLowerCase() } },
       year: req.body.year,
       price: req.body.price,
       torque: req.body.torque,
@@ -137,12 +141,10 @@ export async function addCar(
       doors: req.body.doors,
       description: req.body.description,
       features: {
-        connect: req.body.features.map((feature) => ({
-          id: Number(feature)
-        }))
+        connect: req.body.features.map((feature) => ({ id: feature }))
       },
       images: {
-        create: req.files.map((file) => ({
+        create: req.files?.map((file) => ({
           path: file.path
         }))
       },

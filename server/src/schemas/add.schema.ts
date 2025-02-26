@@ -41,6 +41,6 @@ export const addSchema = z.object({
 
   description: z.string().optional(),
   features: z
-    .array(z.object({ id: z.number() }))
+    .array(z.number())
     .min(1, { message: 'At least one feature is required.' })
 });

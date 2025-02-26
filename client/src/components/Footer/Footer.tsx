@@ -11,7 +11,7 @@ export default function Footer() {
         Working times: Mon-Fri 09:00AM - 07:00PM
       </section>
       <section className={styles.text}>
-        &copy; {new Date().getFullYear()} Boxcars.com. All rights reserved.
+        &copy; {new Date().getFullYear()} AutoDrive.com. All rights reserved.
       </section>
       <section className={styles.social}>
         <p>Find us on:</p>

@@ -1,5 +1,5 @@
 import { Stepper, Button, Group } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import z from 'zod';
 import { useForm } from 'react-hook-form';
 
@@ -9,12 +9,14 @@ import FeaturesStep from './steps/FeaturesStep';
 import { toast } from 'react-toastify';
 import ImagesStep from './steps/ImagesStep';
 import useAddCar from '../hooks/useAddCar';
+import { useNavigate } from 'react-router-dom';
 
 export type AddSchema = z.infer<typeof addSchema>;
 
 export default function MultiForm() {
   const [active, setActive] = useState(0);
   const { mutate: addCar } = useAddCar();
+  const navigate = useNavigate();
 
   const proceed = () => setActive((c) => (c < 3 ? c + 1 : c));
   const goBack = () => setActive((c) => (c > 0 ? c - 1 : c));
@@ -29,13 +31,14 @@ export default function MultiForm() {
     if (!result.success) {
       toast.error(result.error.errors[0].message);
     } else {
-      addCar(data)
+      addCar(result.data);
       toast.success('Car added successfully.');
+      navigate('/');
     }
   };
 
   return (
-    <div className='p-15'>
+    <div className='w-3/4 p-15'>
       <Stepper color='var(--theme-red)' active={active} onStepClick={setActive}>
         <Stepper.Step label='First step' description='General information'>
           <Group justify='center' my={65}>
