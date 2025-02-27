@@ -16,19 +16,19 @@ http.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-http.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    if (error.response?.status === 401) {
-      try {
-        console.log("Refreshing...");
-        const res = await http.post('/auth/refresh');
-        localStorage.setItem('access', res.data.access);
-        return http(error.config);
-      } catch {
-        localStorage.removeItem('access');
-      }
-    }
-    return Promise.reject(error);
-  }
-);
+// http.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     if (error.response?.status === 401) {
+//       try {
+//         console.log("Refreshing...");
+//         const res = await http.post('/auth/refresh');
+//         localStorage.setItem('access', res.data.access);
+//         return http(error.config);
+//       } catch {
+//         localStorage.removeItem('access');
+//       }
+//     }
+//     return Promise.reject(error);
+//   }
+// );

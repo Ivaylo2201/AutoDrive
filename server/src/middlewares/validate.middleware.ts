@@ -10,7 +10,6 @@ export default function validate(schema: ZodSchema) {
       const errors = result.error.errors.map((e) => {
         return { field: e.path[0], message: e.message };
       });
-      console.log(errors)
 
       res.status(StatusCode.BAD_REQUEST).json(errors);
       return;

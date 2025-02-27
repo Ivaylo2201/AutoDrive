@@ -8,10 +8,6 @@ import { addSchema } from '@schemas/add.schema';
 type CarSearchQueryParams = Partial<{
   body: string;
   make: string;
-  price: {
-    min: number;
-    max: number;
-  };
   color: string;
 }>;
 
@@ -20,12 +16,9 @@ export async function getAllCars(req: Request, res: Response) {
 
   const cars = await prisma.car.findMany({
     where: {
-      make: { name: query.make },
-      price: {
-        gte: query.price?.min,
-        lte: query.price?.max
-      },
-      color: { name: query.color }
+      make: { name: query.make?.toLowerCase() },
+      model: { body: { type: query.body?.toLowerCase() } },
+      color: { name: query.color?.toLowerCase() }
     },
     select: {
       id: true,

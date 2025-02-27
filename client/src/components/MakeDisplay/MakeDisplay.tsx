@@ -16,7 +16,7 @@ export default function MakeDisplay() {
         <div className={styles.logos}>
           <MakeLink to='/audi' image={audiLogo} make='Audi' />
           <MakeLink to='/bmw' image={bmwLogo} make='BMW' />
-          <MakeLink to='/vw' image={vwLogo} make='Volkswagen' />
+          <MakeLink to='/volkswagen' image={vwLogo} make='Volkswagen' />
           <MakeLink to='/mercedes' image={mercedesLogo} make='Mercedes' />
           <MakeLink to='/nissan' image={nissanLogo} make='Nissan' />
           <MakeLink to='/peugeot' image={peugeotLogo} make='Peugeot' />

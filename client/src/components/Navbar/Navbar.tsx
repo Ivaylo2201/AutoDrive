@@ -13,6 +13,9 @@ export default function Navbar() {
       <div className={styles.links}>
         {isAuthenticated && (
           <>
+            <Link to='/market' className={styles.link}>
+              Market
+            </Link>
             <Link to='/your-listings' className={styles.link}>
               Your listings
             </Link>

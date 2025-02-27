@@ -4,13 +4,15 @@ import z from 'zod';
 import { useForm } from 'react-hook-form';
 
 import GeneralInformationStep from './steps/GeneralInformationStep';
-import { addSchema } from '../schemas/add.schema';
+
 import FeaturesStep from './steps/FeaturesStep';
 import { toast } from 'react-toastify';
 import ImagesStep from './steps/ImagesStep';
-import useAddCar from '../hooks/useAddCar';
+
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../stores/useAuthStore';
+import { addSchema } from '../../schemas/add.schema';
+import useAddCar from '../../hooks/useAddCar';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 export type AddSchema = z.infer<typeof addSchema>;
 

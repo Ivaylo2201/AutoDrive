@@ -38,7 +38,7 @@ dataRouter.get('/', async (req, res) => {
     transmissions: await prisma.transmission.findMany(),
     fuels: await prisma.fuel.findMany(),
     drivetrains: await prisma.drivetrain.findMany(),
-    features: await prisma.feature.findMany()
+    features: await prisma.feature.findMany(),
   };
 
   res.status(StatusCode.OK).json(data);

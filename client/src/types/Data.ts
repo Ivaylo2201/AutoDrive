@@ -1,3 +1,4 @@
+import { Body } from './Body';
 import { Color } from './Color';
 import { Drivetrain } from './Drivetrain';
 import { Feature } from './Feature';
@@ -12,4 +13,5 @@ export type Data = {
   fuels: Fuel[];
   drivetrains: Drivetrain[];
   features: Feature[];
+  bodies: Body[];
 };

@@ -23,9 +23,7 @@ export default function SignInForm() {
       navigate('/')
     } catch (err) {
       if (err instanceof AxiosError) {
-        toast.error(err.response?.data[0].message);
-      } else if (err instanceof Error) {
-        toast.error(err.message)
+        toast.error(err.response?.data.message);
       }
     }
   };

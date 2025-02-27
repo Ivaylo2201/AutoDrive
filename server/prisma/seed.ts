@@ -407,31 +407,31 @@ async function main() {
     ]
   });
 
-  await prisma.car.create({
-    data: {
-      make: { connect: { name: 'volkswagen' } },
-      model: { connect: { name: 'golf' } },
-      color: { connect: { name: 'red' } },
-      transmission: { connect: { type: 'automatic' } },
-      fuel: { connect: { type: 'petrol' } },
-      drivetrain: { connect: { type: 'awd' } },
-      year: 2022,
-      price: 25000,
-      torque: 100,
-      mileage: 150000,
-      horsepower: 150,
-      seats: 5,
-      doors: 5,
-      description: 'A nice car',
-      features: {
-        connect: [{ id: 4 }, { id: 5 }]
-      },
-      images: {
-        create: [{ path: 'vw.jpg' }]
-      },
-      user: { connect: { id: user1.id } }
-    }
-  });
+  // await prisma.car.create({
+  //   data: {
+  //     make: { connect: { name: 'volkswagen' } },
+  //     model: { connect: { name: 'golf' } },
+  //     color: { connect: { name: 'red' } },
+  //     transmission: { connect: { type: 'automatic' } },
+  //     fuel: { connect: { type: 'petrol' } },
+  //     drivetrain: { connect: { type: 'awd' } },
+  //     year: 2022,
+  //     price: 25000,
+  //     torque: 100,
+  //     mileage: 150000,
+  //     horsepower: 150,
+  //     seats: 5,
+  //     doors: 5,
+  //     description: 'A nice car',
+  //     features: {
+  //       connect: [{ id: 4 }, { id: 5 }]
+  //     },
+  //     images: {
+  //       create: [{ path: 'vw.jpg' }]
+  //     },
+  //     user: { connect: { id: user1.id } }
+  //   }
+  // });
 
   console.log('Seeding complete.');
 }

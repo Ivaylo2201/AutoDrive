@@ -2,11 +2,12 @@ import { Routes, Route } from 'react-router-dom';
 import NavbarLayout from './layouts/NavbarLayout/NavbarLayout';
 import MakeDisplay from './components/MakeDisplay/MakeDisplay';
 import HeroSection from './components/HeroSection/HeroSection';
-import MultiForm from './components/MultiForm';
+
 import Market from './components/Market/Market';
 import ProtectedLayout from './layouts/ProtectedLayout/ProtectedLayout';
 import SignInForm from './components/SignInForm/SignInForm';
 import SignUpForm from './components/SignUpForm.tsx/SignUpForm';
+import MultiForm from './components/Multiform/MultiForm';
 
 export default function Router() {
   return (
@@ -31,7 +32,7 @@ export default function Router() {
         }
       />
       <Route
-        path='/market'
+        path='/market/:make?'
         element={
           <NavbarLayout>
             <Market />

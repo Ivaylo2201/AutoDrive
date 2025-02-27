@@ -1,10 +1,12 @@
 import { NumberInput, Select, TextInput } from '@mantine/core';
-import useModels from '../../hooks/useModels';
+
 import { useState } from 'react';
-import useServerData from '../../hooks/useServerData';
+
 import { Control, Controller, UseFormGetValues } from 'react-hook-form';
 import { AddSchema } from '../MultiForm';
-import formatResponse from '../../utils/formatResponse';
+import useServerData from '../../../hooks/useServerData';
+import useModels from '../../../hooks/useModels';
+import formatResponse from '../../../utils/formatResponse';
 
 type GeneralInformationStepProps = {
   getValues: UseFormGetValues<AddSchema>;
@@ -83,7 +85,10 @@ export default function GeneralInformationStep({
               withAsterisk
               label='Transmission'
               placeholder='Choose a transmission.'
-              data={formatResponse({ array: data?.transmissions, field: 'type' })}
+              data={formatResponse({
+                array: data?.transmissions,
+                field: 'type'
+              })}
             />
           )}
         />
@@ -96,7 +101,11 @@ export default function GeneralInformationStep({
               withAsterisk
               label='Drivetrain'
               placeholder='Choose a drivetrain.'
-              data={formatResponse({ array: data?.drivetrains, field: 'type', mode: 'uppercase' })}
+              data={formatResponse({
+                array: data?.drivetrains,
+                field: 'type',
+                mode: 'uppercase'
+              })}
             />
           )}
         />
