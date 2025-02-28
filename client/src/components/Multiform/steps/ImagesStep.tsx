@@ -1,14 +1,13 @@
-import { Control, Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { AddSchema } from '../MultiForm';
 import { Group, Text } from '@mantine/core';
 import { Dropzone } from '@mantine/dropzone';
 import '@mantine/dropzone/styles.css';
 
-type MediaStepProps = {
-  control: Control<AddSchema>;
-};
 
-export default function ImagesStep({ control }: MediaStepProps) {
+export default function ImagesStep() {
+  const { control } = useFormContext<AddSchema>();
+
   return (
     <div className='w-1/2'>
       <Controller

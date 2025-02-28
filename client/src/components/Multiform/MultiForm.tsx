@@ -1,7 +1,7 @@
 import { Stepper, Button, Group } from '@mantine/core';
 import { useState } from 'react';
 import z from 'zod';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import GeneralInformationStep from './steps/GeneralInformationStep';
 
@@ -25,11 +25,12 @@ export default function MultiForm() {
   const proceed = () => setActive((c) => (c < 3 ? c + 1 : c));
   const goBack = () => setActive((c) => (c > 0 ? c - 1 : c));
 
-  const { handleSubmit, control, getValues } = useForm<AddSchema>({
+  const methods = useForm<AddSchema>({
     defaultValues: { features: [], images: [] }
   });
 
   const onSubmit = async (data: AddSchema) => {
+    console.log(data);
     const result = addSchema.safeParse(data);
 
     if (!result.success) {
@@ -49,23 +50,29 @@ export default function MultiForm() {
 
   return (
     <div className='w-3/4 p-15'>
-      <Stepper color='var(--theme-red)' active={active} onStepClick={setActive}>
-        <Stepper.Step label='First step' description='General information'>
-          <Group justify='center' my={65}>
-            <GeneralInformationStep control={control} getValues={getValues} />
-          </Group>
-        </Stepper.Step>
-        <Stepper.Step label='Second step' description='Features'>
-          <Group justify='center' my={65}>
-            <FeaturesStep control={control} getValues={getValues} />
-          </Group>
-        </Stepper.Step>
-        <Stepper.Step label='Third step' description='Images'>
-          <Group justify='center' my={65}>
-            <ImagesStep control={control} />
-          </Group>
-        </Stepper.Step>
-      </Stepper>
+      <FormProvider {...methods}>
+        <Stepper
+          color='var(--theme-red)'
+          active={active}
+          onStepClick={setActive}
+        >
+          <Stepper.Step label='First step' description='General information'>
+            <Group justify='center' my={65}>
+              <GeneralInformationStep />
+            </Group>
+          </Stepper.Step>
+          <Stepper.Step label='Second step' description='Features'>
+            <Group justify='center' my={65}>
+              <FeaturesStep />
+            </Group>
+          </Stepper.Step>
+          <Stepper.Step label='Third step' description='Images'>
+            <Group justify='center' my={65}>
+              <ImagesStep />
+            </Group>
+          </Stepper.Step>
+        </Stepper>
+      </FormProvider>
       <Group justify='center' my={65}>
         <Button color='black' onClick={goBack} disabled={active === 0}>
           Back
@@ -73,7 +80,7 @@ export default function MultiForm() {
         <Button
           color='var(--theme-red)'
           className='black'
-          onClick={active === 2 ? handleSubmit(onSubmit) : proceed}
+          onClick={active === 2 ? methods.handleSubmit(onSubmit) : proceed}
         >
           {active === 2 ? 'Finish' : 'Next'}
         </Button>

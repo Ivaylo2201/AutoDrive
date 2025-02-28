@@ -1,22 +1,12 @@
 import { NumberInput, Select, TextInput } from '@mantine/core';
-
 import { useState } from 'react';
-
-import { Control, Controller, UseFormGetValues } from 'react-hook-form';
-import { AddSchema } from '../MultiForm';
+import { Controller, useFormContext } from 'react-hook-form';
 import useServerData from '../../../hooks/useServerData';
 import useModels from '../../../hooks/useModels';
 import formatResponse from '../../../utils/formatResponse';
 
-type GeneralInformationStepProps = {
-  getValues: UseFormGetValues<AddSchema>;
-  control: Control<AddSchema>;
-};
-
-export default function GeneralInformationStep({
-  control,
-  getValues
-}: GeneralInformationStepProps) {
+export default function GeneralInformationStep() {
+  const { control, getValues } = useFormContext();
   const [selectedMake, setSelectedMake] = useState<string | null>(
     getValues('make') || null
   );

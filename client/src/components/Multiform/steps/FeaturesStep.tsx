@@ -1,24 +1,11 @@
-import {
-  Control,
-  Controller,
-  useFieldArray,
-  UseFormGetValues
-} from 'react-hook-form';
-
+import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { Checkbox } from '@mantine/core';
 import { AddSchema } from '../MultiForm';
 import useServerData from '../../../hooks/useServerData';
 import capitalize from '../../../utils/capitalize';
 
-type FeaturesStepProps = {
-  control: Control<AddSchema>;
-  getValues: UseFormGetValues<AddSchema>;
-};
-
-export default function FeaturesStep({
-  control,
-  getValues
-}: FeaturesStepProps) {
+export default function FeaturesStep() {
+  const { control, getValues } = useFormContext<AddSchema>();
   const { data } = useServerData();
 
   const { append, remove } = useFieldArray({
@@ -45,10 +32,9 @@ export default function FeaturesStep({
                 if (e.target.checked) {
                   append({ id: feature.id });
                 } else {
-                  const idx = getValues('features').findIndex(
-                    (f) => f.id === feature.id
+                  remove(
+                    getValues('features').findIndex((f) => f.id === feature.id)
                   );
-                  remove(idx);
                 }
               }}
             />
