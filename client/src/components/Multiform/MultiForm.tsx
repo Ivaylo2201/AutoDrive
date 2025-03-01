@@ -1,6 +1,5 @@
 import { Stepper, Button, Group } from '@mantine/core';
 import { useState } from 'react';
-import z from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import GeneralInformationStep from './steps/GeneralInformationStep';
@@ -10,11 +9,9 @@ import { toast } from 'react-toastify';
 import ImagesStep from './steps/ImagesStep';
 
 import { useNavigate } from 'react-router-dom';
-import { addSchema } from '../../schemas/add.schema';
+import { AddSchema, addSchema } from '../../schemas/add.schema';
 import useAddCar from '../../hooks/useAddCar';
 import { useAuthStore } from '../../stores/useAuthStore';
-
-export type AddSchema = z.infer<typeof addSchema>;
 
 export default function MultiForm() {
   const [active, setActive] = useState(0);
@@ -30,7 +27,6 @@ export default function MultiForm() {
   });
 
   const onSubmit = async (data: AddSchema) => {
-    console.log(data);
     const result = addSchema.safeParse(data);
 
     if (!result.success) {

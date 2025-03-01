@@ -46,3 +46,5 @@ export const addSchema = z.object({
     .array(z.instanceof(File))
     .min(1, { message: 'Upload at least 1 image.' })
 });
+
+export type AddSchema = z.infer<typeof addSchema>;

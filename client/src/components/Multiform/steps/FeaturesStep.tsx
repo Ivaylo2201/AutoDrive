@@ -1,8 +1,8 @@
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { Checkbox } from '@mantine/core';
-import { AddSchema } from '../MultiForm';
 import useServerData from '../../../hooks/useServerData';
 import capitalize from '../../../utils/capitalize';
+import { AddSchema } from '../../../schemas/add.schema';
 
 export default function FeaturesStep() {
   const { control, getValues } = useFormContext<AddSchema>();

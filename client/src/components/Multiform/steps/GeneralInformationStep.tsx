@@ -4,12 +4,11 @@ import { Controller, useFormContext } from 'react-hook-form';
 import useServerData from '../../../hooks/useServerData';
 import useModels from '../../../hooks/useModels';
 import formatResponse from '../../../utils/formatResponse';
+import { AddSchema } from '../../../schemas/add.schema';
 
 export default function GeneralInformationStep() {
-  const { control, getValues } = useFormContext();
-  const [selectedMake, setSelectedMake] = useState<string | null>(
-    getValues('make') || null
-  );
+  const { control, getValues } = useFormContext<AddSchema>();
+  const [selectedMake, setSelectedMake] = useState<string | null>(getValues('make') || null);
   const { data } = useServerData();
   const { data: models } = useModels(selectedMake);
 

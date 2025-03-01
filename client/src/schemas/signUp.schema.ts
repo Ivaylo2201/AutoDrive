@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const signUpSchema = z
+export const signUpSchema = z
   .object({
     username: z
       .string({ required_error: 'Username is required.' })
@@ -22,4 +22,4 @@ const signUpSchema = z
     path: ['passwordConfirmation']
   });
 
-export default signUpSchema;
+export type SignUpSchema = z.infer<typeof signUpSchema>;
