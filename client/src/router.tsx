@@ -8,6 +8,7 @@ import ProtectedLayout from './layouts/ProtectedLayout/ProtectedLayout';
 import SignInForm from './components/SignInForm/SignInForm';
 import SignUpForm from './components/SignUpForm.tsx/SignUpForm';
 import MultiForm from './components/Multiform/MultiForm';
+import CarDetails from './components/CarPage/CarPage';
 
 export default function Router() {
   return (
@@ -36,6 +37,14 @@ export default function Router() {
         element={
           <NavbarLayout>
             <Market />
+          </NavbarLayout>
+        }
+      />
+      <Route
+        path='/cars/:id'
+        element={
+          <NavbarLayout>
+            <CarDetails />
           </NavbarLayout>
         }
       />

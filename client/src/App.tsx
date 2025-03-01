@@ -1,5 +1,6 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '@mantine/carousel/styles.css';
 import Router from './router';
 
 export default function App() {
