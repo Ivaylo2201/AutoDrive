@@ -7,15 +7,14 @@ import { http } from '../../utils/http';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { useAuthStore } from '../../stores/useAuthStore';
-
-type SignInFormData = { username: string; password: string };
+import { SignInSchema } from '../../schemas/signIn.schema';
 
 export default function SignInForm() {
-  const { register, handleSubmit } = useForm<SignInFormData>();
+  const { register, handleSubmit } = useForm<SignInSchema>();
   const navigate = useNavigate();
   const { signIn } = useAuthStore();
 
-  const onSubmit = async (data: SignInFormData) => {
+  const onSubmit = async (data: SignInSchema) => {
     try {
       const res = await http.post('/auth/sign-in', data);
       localStorage.setItem('access', res.data.access);

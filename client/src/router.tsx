@@ -9,6 +9,8 @@ import SignInForm from './components/SignInForm/SignInForm';
 import SignUpForm from './components/SignUpForm.tsx/SignUpForm';
 import MultiForm from './components/Multiform/MultiForm';
 import CarDetails from './components/CarPage/CarPage';
+import YourListings from './components/YourListings/YourListings';
+import EditCar from './components/EditCar/EditCar';
 
 export default function Router() {
   return (
@@ -50,17 +52,18 @@ export default function Router() {
       />
       <Route path='/auth/sign-in' element={<SignInForm />} />
       <Route path='/auth/sign-up' element={<SignUpForm />} />
+      <Route path='/edit/:id' element={<EditCar />} />
       <Route
         path='/your-listings'
         element={
           <ProtectedLayout>
             <NavbarLayout>
-              <></>
+              <YourListings />
             </NavbarLayout>
           </ProtectedLayout>
         }
       />
-      <Route path='*' element={<></>} />
+      <Route path='*' element={<div>404</div>} />
     </Routes>
   );
 }

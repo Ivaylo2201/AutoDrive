@@ -1,4 +1,8 @@
-import axios from 'axios';
+import axios, {
+  AxiosError,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig
+} from 'axios';
 
 export const http = axios.create({
   baseURL: 'http://localhost:3000/api',
@@ -16,19 +20,22 @@ http.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// http.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     if (error.response?.status === 401) {
-//       try {
-//         console.log("Refreshing...");
-//         const res = await http.post('/auth/refresh');
-//         localStorage.setItem('access', res.data.access);
-//         return http(error.config);
-//       } catch {
-//         localStorage.removeItem('access');
-//       }
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+http.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    if (error.response?.status === 401) {
+      console.warn('Expired access token, refreshing...');
+
+      try {
+        const res = await http.post('/auth/refresh');
+        localStorage.setItem('access', res.data.access);
+        return http(error.config as AxiosRequestConfig);
+      } catch {
+        console.error('Expired refresh token, signing out...');
+        localStorage.removeItem('access');
+        window.location.href = '/auth/sign-in';
+      }
+    }
+    return Promise.reject(error);
+  }
+);

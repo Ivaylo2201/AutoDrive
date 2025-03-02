@@ -6,7 +6,6 @@ export default function useServerData() {
   return useQuery({
     queryKey: ['serverData'],
     queryFn: async () => {
-      console.log("Fetching server data...");
       const res = await http.get<Data>(`/data`);
       return res.data;
     },

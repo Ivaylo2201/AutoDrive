@@ -30,6 +30,7 @@ export default function CarDetails(car: CarDetailsProps) {
     { icon: <GasStation />, text: capitalize(car.fuel.type) },
     { icon: <Drivetrain />, text: car.drivetrain.type.toUpperCase() },
     { icon: <Calendar />, text: car.year },
+    { icon: <Speed />, text: `${car.torque} Nm` },
     { icon: <Speedometer />, text: `${car.mileage} km` },
     { icon: <Speed />, text: `${car.horsepower} km/h` },
     { icon: <CarSeat />, text: car.seats },

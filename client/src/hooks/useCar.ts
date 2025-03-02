@@ -9,5 +9,6 @@ export default function useCar(id: string) {
       return res.data;
     },
     queryKey: ['car', id],
+    staleTime: 15 * 60 * 1000
   });
 }

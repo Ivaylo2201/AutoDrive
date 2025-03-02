@@ -3,7 +3,6 @@ import { Speedometer } from '../../icons/Speedometer';
 import { Transmission } from '../../icons/Transmission';
 import capitalize from '../../utils/capitalize';
 import CarStat from '../CarStat/CarStat';
-import { Link } from 'react-router-dom';
 
 type CarCardProps = {
   id: string;
@@ -22,6 +21,7 @@ type CarCardProps = {
   price: string;
   mileage: number;
   images: { path: string }[];
+  link: React.ReactNode;
 };
 
 export default function CarCard({
@@ -32,7 +32,8 @@ export default function CarCard({
   transmission: { type: transmissionType },
   price,
   mileage,
-  images
+  images,
+  link
 }: CarCardProps) {
   return (
     <article className='group w-72 h-96 border border-neutral-200 rounded-xl flex flex-col overflow-hidden'>
@@ -59,12 +60,7 @@ export default function CarCard({
           </CarStat>
         </section>
         <div className='flex justify-between items-center'>
-          <Link
-            to={`/cars/${id}`}
-            className='bg-neutral-800 rounded-full py-1.5 px-8 text-white cursor-pointer hover:bg-neutral-700 transition-colors duration-300'
-          >
-            View
-          </Link>
+          {link}
           <p className='text-xl text-neutral-800 font-semibold'>${price}</p>
         </div>
       </div>

@@ -20,6 +20,7 @@ export default function useModels(make: string | null) {
       } catch {
         return [];
       }
-    }
+    },
+    staleTime: 15 * 60 * 1000
   });
 }

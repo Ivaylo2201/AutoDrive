@@ -6,7 +6,7 @@ import { MagnifyingGlass } from '../../icons/MagnifyingGlass';
 import { useForm } from 'react-hook-form';
 import useServerData from '../../hooks/useServerData';
 import capitalize from '../../utils/capitalize';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export type Filters = {
   make?: string;
@@ -67,7 +67,20 @@ export default function Market() {
       <div className='min-h-[51rem] flex flex-col justify-center items-center gap-4'>
         <section className='flex flex-wrap justify-center gap-x-7 gap-y-5 p-5'>
           {cars?.length ? (
-            cars.map((car) => <CarCard key={car.id} {...car} />)
+            cars.map((car) => (
+              <CarCard
+                key={car.id}
+                {...car}
+                link={
+                  <Link
+                    to={`/cars/${car.id}`}
+                    className='bg-neutral-800 rounded-full py-1.5 px-8 text-white cursor-pointer hover:bg-neutral-700 transition-colors duration-300'
+                  >
+                    View
+                  </Link>
+                }
+              />
+            ))
           ) : (
             <p>No cars match your criteria.</p>
           )}

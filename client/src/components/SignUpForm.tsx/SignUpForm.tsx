@@ -6,18 +6,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { http } from '../../utils/http';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-import signUpSchema from '../../schemas/signUp.schema';
-import { z } from 'zod';
 import { useAuthStore } from '../../stores/useAuthStore';
-
-type SignUpFormData = z.infer<typeof signUpSchema>;
+import { SignUpSchema } from '../../schemas/signUp.schema';
 
 export default function SignUpForm() {
-  const { register, handleSubmit } = useForm<SignUpFormData>();
+  const { register, handleSubmit } = useForm<SignUpSchema>();
   const { signIn } = useAuthStore();
   const navigate = useNavigate();
 
-  const onSubmit = async (data: SignUpFormData) => {
+  const onSubmit = async (data: SignUpSchema) => {
     try {
       const res = await http.post('/auth/sign-up', data);
       localStorage.setItem('access', res.data.access);

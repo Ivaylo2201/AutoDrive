@@ -78,38 +78,47 @@ export async function getCarById(req: Request<{ id: string }>, res: Response) {
 
 export async function getUserCars(req: Request, res: Response) {
   const cars = await prisma.car.findMany({
-    where: { user: { id: req.body.userId } },
     select: {
       id: true,
       make: { select: { name: true } },
       model: { select: { name: true } },
-      color: { select: { name: true } },
-      transmission: { select: { type: true } },
       fuel: { select: { type: true } },
-      drivetrain: { select: { type: true } },
-      year: true,
+      transmission: { select: { type: true } },
       price: true,
-      torque: true,
       mileage: true,
-      horsepower: true,
-      seats: true,
-      doors: true,
-      description: true,
-      createdAt: true
+      images: { select: { path: true }, take: 1 }
     }
   });
 
   res.status(StatusCode.OK).json(cars);
 }
 
+export async function editCar(req: Request<{ id: string }>, res: Response) {
+  const car = await prisma.car.findFirst({ where: { id: req.params.id } });
+
+  if (!car) {
+    res
+      .status(StatusCode.NOT_FOUND)
+      .json({ message: `The requested resource was not found on the server.` });
+    return;
+  }
+
+  if (car.userId !== req.body.userId) {
+    res
+      .status(StatusCode.FORBIDDEN)
+      .json({ message: 'User does not own the car.' });
+    return;
+  }
+
+  await prisma.car.update({ where: { id: car.id }, data: { ...req.body } });
+
+  res.status(StatusCode.OK).json({ message: 'Car updated successfully.' });
+}
+
 export async function addCar(
   req: Request<{}, {}, z.infer<typeof addSchema> & { userId: string }>,
   res: Response
 ) {
-  // console.log(req.body);
-  console.log(req.files);
-  console.log(req.file);
-
   if (req.files?.length === 0 || !(req.files instanceof Array)) {
     res
       .status(StatusCode.BAD_REQUEST)

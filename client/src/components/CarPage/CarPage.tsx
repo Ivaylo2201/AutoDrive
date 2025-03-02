@@ -20,9 +20,14 @@ export default function CarPage({}: CarDetailsProps) {
     <div className='grid grid-cols-2 gap-4'>
       <section className='flex flex-col gap-10'>
         <div className='flex items-center justify-between'>
-          <p className='text-5xl font-semibold'>
-            {capitalize(`${car.make.name} ${car.model.name}`)}
-          </p>
+          <div className='flex flex-col gap-2'>
+            <p className='text-5xl font-semibold'>
+              {capitalize(`${car.make.name} ${car.model.name}`)}
+            </p>
+            <p>
+              {car.user.username}, {car.user.phoneNumber}
+            </p>
+          </div>
           <p className='text-5xl font-semibold'>${car.price}</p>
         </div>
         <Slider images={car.images.map((img) => img.path)} />

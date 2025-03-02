@@ -7,9 +7,9 @@ export default function useCars(filters: Filters) {
   return useQuery({
     queryKey: ['cars', filters],
     queryFn: async () => {
-      console.log('requestng with ', filters);
       const res = await http.get<Car[]>(`/cars`, { params: filters });
       return res.data;
-    }
+    },
+    staleTime: 15 * 60 * 1000
   });
 }
