@@ -16,10 +16,13 @@ export default function SignInForm() {
 
   const onSubmit = async (data: SignInSchema) => {
     try {
-      const res = await http.post('/auth/sign-in', data);
+      const res = await http.post<{ access: string; username: string }>(
+        '/auth/sign-in',
+        data
+      );
       localStorage.setItem('access', res.data.access);
-      signIn();
-      navigate('/')
+      signIn(res.data.username);
+      navigate('/');
     } catch (err) {
       if (err instanceof AxiosError) {
         toast.error(err.response?.data.message);

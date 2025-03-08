@@ -18,7 +18,7 @@ export default function SignUpForm() {
     try {
       const res = await http.post('/auth/sign-up', data);
       localStorage.setItem('access', res.data.access);
-      signIn();
+      signIn(res.data.username);
       navigate('/');
     } catch (err) {
       if (err instanceof AxiosError) {

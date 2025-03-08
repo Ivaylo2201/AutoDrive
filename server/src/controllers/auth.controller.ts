@@ -11,7 +11,7 @@ export async function signIn(req: Request, res: Response) {
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
     res
-      .status(StatusCode.UNAUTHORIZED)
+      .status(StatusCode.BAD_REQUEST)
       .json({ message: 'Invalid credentials.' });
     return;
   }
@@ -24,7 +24,7 @@ export async function signIn(req: Request, res: Response) {
     maxAge: 7 * 24 * 60 * 60 * 1000
   });
 
-  res.status(StatusCode.OK).json({ access });
+  res.status(StatusCode.OK).json({ access, username: user.username });
 }
 
 export async function signUp(req: Request, res: Response) {
@@ -48,7 +48,7 @@ export async function signUp(req: Request, res: Response) {
   });
 
   const tokens = tokenService.obtainPair(user);
-  res.status(StatusCode.OK).json(tokens);
+  res.status(StatusCode.OK).json({ ...tokens, username: user.username });
 }
 
 export async function refreshToken(req: Request, res: Response) {

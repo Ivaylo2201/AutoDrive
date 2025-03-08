@@ -1,4 +1,5 @@
 import capitalize from '../../utils/capitalize';
+import styles from './CarStat.module.css';
 
 type CarStatProps = {
   text: string;
@@ -6,7 +7,7 @@ type CarStatProps = {
 
 export default function CarStat({ text, children }: CarStatProps) {
   return (
-    <div className='flex flex-col items-center'>
+    <div className={styles.stat}>
       {children}
       <p>{capitalize(text)}</p>
     </div>

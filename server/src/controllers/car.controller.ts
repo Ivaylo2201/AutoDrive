@@ -87,7 +87,8 @@ export async function getUserCars(req: Request, res: Response) {
       price: true,
       mileage: true,
       images: { select: { path: true }, take: 1 }
-    }
+    },
+    where: { userId: req.body.userId }
   });
 
   res.status(StatusCode.OK).json(cars);

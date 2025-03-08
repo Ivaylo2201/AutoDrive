@@ -10,6 +10,7 @@ import { Transmission } from '../../icons/Transmission';
 import { Car } from '../../types/Car';
 import capitalize from '../../utils/capitalize';
 import Item, { ItemProps } from './Item';
+import styles from "./CarDetails.module.css";
 
 type CarDetailsProps = Omit<
   Car,
@@ -38,7 +39,7 @@ export default function CarDetails(car: CarDetailsProps) {
   ];
 
   return (
-    <ul className='grid grid-cols-5 gap-x-5 gap-y-3'>
+    <ul className={styles.list}>
       {data.map((item) => (
         <Item key={item.text} {...item} />
       ))}
