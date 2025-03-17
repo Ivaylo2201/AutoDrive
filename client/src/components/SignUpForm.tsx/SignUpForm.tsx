@@ -11,8 +11,13 @@ import { SignUpSchema } from '../../schemas/signUp.schema';
 
 export default function SignUpForm() {
   const { register, handleSubmit } = useForm<SignUpSchema>();
-  const { signIn } = useAuthStore();
+  const { signIn, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
+
+  if (isAuthenticated) {
+    navigate('/');
+    return;
+  }
 
   const onSubmit = async (data: SignUpSchema) => {
     try {

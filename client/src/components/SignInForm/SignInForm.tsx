@@ -12,7 +12,12 @@ import { SignInSchema } from '../../schemas/signIn.schema';
 export default function SignInForm() {
   const { register, handleSubmit } = useForm<SignInSchema>();
   const navigate = useNavigate();
-  const { signIn } = useAuthStore();
+  const { signIn, isAuthenticated } = useAuthStore();
+
+  if (isAuthenticated) {
+    navigate('/');
+    return;
+  }
 
   const onSubmit = async (data: SignInSchema) => {
     try {
